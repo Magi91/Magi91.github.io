@@ -5,7 +5,6 @@
 	Forty by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-
 */
 
 html, body, div, span, applet, object,
@@ -3951,55 +3950,3 @@ input, select, textarea {
 			opacity: 1;
 			visibility: visible;
 		}
-
-/* ====================================
-   FORM FIX – Elevate Digital
-   ==================================== */
-
-/* Render more visible inputs */
-#contact input[type="text"],
-#contact input[type="email"],
-#contact select,
-#contact textarea {
-    background: #ffffff !important;
-    border: 1px solid #d0d0d0 !important;
-    color: #222 !important;
-    box-shadow: none !important;
-}
-
-/* Hover + focus for inputs */
-#contact input[type="text"]:focus,
-#contact input[type="email"]:focus,
-#contact select:focus,
-#contact textarea:focus {
-    border-color: var(--elevate-blue) !important;
-    box-shadow: 0 0 0 2px rgba(90, 176, 255, 0.2) !important;
-}
-
-/* Fix label contrast */
-#contact label {
-    color: #111 !important;
-    font-weight: 600;
-}
-
-/* Placeholder darker */
-#contact input::placeholder,
-#contact textarea::placeholder {
-    color: #666 !important;
-}
-
-/* Fix SEND/CLEAR buttons spacing */
-#contact .actions .button.primary {
-    margin-right: 10px;
-}
-
-/* Remove weird ultra-light gray behind fields */
-#contact .row .col-12,
-#contact .row .col-6 {
-    background: transparent !important;
-}
-
-/* Reduce excessive height */
-#contact textarea {
-    min-height: 180px !important;
-}

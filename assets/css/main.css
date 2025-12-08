@@ -3952,45 +3952,55 @@ input, select, textarea {
 			visibility: visible;
 		}
 
-/* ================================
-   ELEVATE DIGITAL – CUSTOM BRAND
-   ================================ */
+/* ====================================
+   FORM FIX – Elevate Digital
+   ==================================== */
 
-:root {
-    --elevate-blue: #5AB0FF;
-    --elevate-yellow: #F2C94C;
-    --elevate-gray: #F5F5F5;
+/* Render more visible inputs */
+#contact input[type="text"],
+#contact input[type="email"],
+#contact select,
+#contact textarea {
+    background: #ffffff !important;
+    border: 1px solid #d0d0d0 !important;
+    color: #222 !important;
+    box-shadow: none !important;
 }
 
-/* Primary button */
-.button.primary,
-button.primary,
-input[type="submit"].primary {
-    background-color: var(--elevate-blue) !important;
+/* Hover + focus for inputs */
+#contact input[type="text"]:focus,
+#contact input[type="email"]:focus,
+#contact select:focus,
+#contact textarea:focus {
     border-color: var(--elevate-blue) !important;
-    color: #fff !important;
+    box-shadow: 0 0 0 2px rgba(90, 176, 255, 0.2) !important;
 }
 
-.button.primary:hover,
-button.primary:hover,
-input[type="submit"].primary:hover {
-    background-color: var(--elevate-yellow) !important;
-    border-color: var(--elevate-yellow) !important;
-    color: #000 !important;
-}
-
-/* Contact background */
-#contact {
-    background: var(--elevate-gray);
-}
-
-/* Strong labels */
+/* Fix label contrast */
 #contact label {
+    color: #111 !important;
     font-weight: 600;
-    color: #222;
 }
 
-/* Banner tweak (optional) */
-#banner.major {
-    background-color: #0D0D0D;
+/* Placeholder darker */
+#contact input::placeholder,
+#contact textarea::placeholder {
+    color: #666 !important;
 }
+
+/* Fix SEND/CLEAR buttons spacing */
+#contact .actions .button.primary {
+    margin-right: 10px;
+}
+
+/* Remove weird ultra-light gray behind fields */
+#contact .row .col-12,
+#contact .row .col-6 {
+    background: transparent !important;
+}
+
+/* Reduce excessive height */
+#contact textarea {
+    min-height: 180px !important;
+}
+

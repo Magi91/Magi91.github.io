@@ -1,1 +1,1 @@
-# Magi91.github.io
+# Magi91.github.io 2025

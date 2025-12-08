@@ -16,8 +16,8 @@ document.querySelectorAll(".section").forEach(sec => {
 
 
 
-
-    import { useRef, useEffect, useCallback } from 'react';
+//CLICK REACT CODE NOT WORKING..
+import { useRef, useEffect, useCallback } from 'react';
 
 const ClickSpark = ({
   sparkColor = '#fff',
@@ -33,73 +33,50 @@ const ClickSpark = ({
   const sparksRef = useRef([]);
   const startTimeRef = useRef(null);
 
+  // Resize canvas to parent
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    let resizeTimeout;
-
     const resizeCanvas = () => {
       const { width, height } = parent.getBoundingClientRect();
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      }
+      canvas.width = width;
+      canvas.height = height;
     };
-
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resizeCanvas, 100);
-    };
-
-    const ro = new ResizeObserver(handleResize);
-    ro.observe(parent);
 
     resizeCanvas();
+    const ro = new ResizeObserver(resizeCanvas);
+    ro.observe(parent);
 
-    return () => {
-      ro.disconnect();
-      clearTimeout(resizeTimeout);
-    };
+    return () => ro.disconnect();
   }, []);
 
-  const easeFunc = useCallback(
-    t => {
-      switch (easing) {
-        case 'linear':
-          return t;
-        case 'ease-in':
-          return t * t;
-        case 'ease-in-out':
-          return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        default:
-          return t * (2 - t);
-      }
-    },
-    [easing]
-  );
+  // Easing function
+  const easeFunc = useCallback(t => {
+    switch (easing) {
+      case 'linear': return t;
+      case 'ease-in': return t * t;
+      case 'ease-in-out': return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      default: return t * (2 - t);
+    }
+  }, [easing]);
 
+  // Animation loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
     let animationId;
-
     const draw = timestamp => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
+      if (!startTimeRef.current) startTimeRef.current = timestamp;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter(spark => {
         const elapsed = timestamp - spark.startTime;
-        if (elapsed >= duration) {
-          return false;
-        }
+        if (elapsed >= duration) return false;
 
         const progress = elapsed / duration;
         const eased = easeFunc(progress);
@@ -126,12 +103,10 @@ const ClickSpark = ({
     };
 
     animationId = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
+    return () => cancelAnimationFrame(animationId);
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
 
+  // Click handler
   const handleClick = e => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -152,11 +127,7 @@ const ClickSpark = ({
 
   return (
     <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%'
-      }}
+      style={{ position: 'relative', width: '100%', height: '100%' }}
       onClick={handleClick}
     >
       <canvas
@@ -178,6 +149,6 @@ const ClickSpark = ({
 };
 
 export default ClickSpark;
-
 });
+
 

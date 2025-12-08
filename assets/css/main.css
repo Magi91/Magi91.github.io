@@ -5,6 +5,7 @@
 	Forty by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+
 */
 
 html, body, div, span, applet, object,
@@ -3950,3 +3951,46 @@ input, select, textarea {
 			opacity: 1;
 			visibility: visible;
 		}
+
+/* ================================
+   ELEVATE DIGITAL – CUSTOM BRAND
+   ================================ */
+
+:root {
+    --elevate-blue: #5AB0FF;
+    --elevate-yellow: #F2C94C;
+    --elevate-gray: #F5F5F5;
+}
+
+/* Primary button */
+.button.primary,
+button.primary,
+input[type="submit"].primary {
+    background-color: var(--elevate-blue) !important;
+    border-color: var(--elevate-blue) !important;
+    color: #fff !important;
+}
+
+.button.primary:hover,
+button.primary:hover,
+input[type="submit"].primary:hover {
+    background-color: var(--elevate-yellow) !important;
+    border-color: var(--elevate-yellow) !important;
+    color: #000 !important;
+}
+
+/* Contact background */
+#contact {
+    background: var(--elevate-gray);
+}
+
+/* Strong labels */
+#contact label {
+    font-weight: 600;
+    color: #222;
+}
+
+/* Banner tweak (optional) */
+#banner.major {
+    background-color: #0D0D0D;
+}

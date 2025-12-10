@@ -136,6 +136,27 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script>
+  function showProject(id) {
+    const projects = document.querySelectorAll('.portfolio-project');
+    projects.forEach(project => {
+      project.style.display = 'none';
+    });
+
+    const active = document.getElementById(id);
+    if (active) {
+      active.style.display = 'block';
+      active.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Show first project by default
+  document.addEventListener('DOMContentLoaded', () => {
+    showProject('officina');
+  });
+		</script>
+
 
 	</body>
 </html>
+

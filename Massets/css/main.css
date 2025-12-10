@@ -4450,7 +4450,7 @@ figure figcaption {
 .wrapper.spotlight p,
 #banner h2,
 #banner p {
-	color: #ffffff !important;
+	color: #001438 !important;
 }
 
 /* Migliora contrasto e leggibilità */
@@ -4465,7 +4465,7 @@ figure figcaption {
    ================================ */
 
 .features article {
-	background: #ffffff;
+	background: #16d48b;
 	padding: 2em;
 	border-radius: 12px;
 	box-shadow: 0 10px 30px rgba(0,0,0,0.08);

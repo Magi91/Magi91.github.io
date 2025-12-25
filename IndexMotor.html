@@ -1,468 +1,193 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TechMotor Pro - Officina Meccanica di Precisione</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* =========================
+           PALETTE - Automotive / Metal
+           ========================= */
+        :root{
+            --bg-dark: #0b1216;       /* deep charcoal */
+            --panel: #12191d;         /* slightly lighter panel */
+            --metal: #bfc7cb;         /* metal / steel */
+            --accent: #f39c12;        /* safety orange - CTA */
+            --accent-2: #ffd57f;      /* lighter accent */
+            --muted: #98a0a4;         /* muted text */
+            --light-bg: #f6f8f9;      /* section light background */
+            --glass: rgba(255,255,255,0.03);
+            --radius: 14px;
+            --max-width: 1400px;
+            --shadow-1: 0 8px 30px rgba(2,6,10,0.6);
+            --shadow-2: 0 6px 18px rgba(2,6,10,0.45);
+            --focus: 0 0 0 4px rgba(243,156,18,0.12);
         }
 
-        :root {
-            --primary: #ff6b35;
-            --secondary: #1a1a2e;
-            --accent: #16213e;
-            --light: #f5f5f5;
-            --gray: #666;
+        /* Reset & base */
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #071017 100%);
+            color: var(--metal);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            overflow-x:hidden;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--secondary);
-            overflow-x: hidden;
+        a{color:inherit;text-decoration:none}
+
+        /* Header */
+        header{
+            position:fixed;top:0;left:0;width:100%;
+            z-index:1200;
+            background: linear-gradient(180deg, rgba(10,14,16,0.7), rgba(10,14,16,0.45));
+            backdrop-filter: blur(6px);
+            transition:padding 0.25s ease, box-shadow 0.25s ease;
+            padding:1.25rem 5%;
         }
 
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: all 0.3s ease;
+        nav{
+            max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;
         }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+        .logo{display:flex;align-items:center;gap:0.9rem;color:var(--accent-2);font-weight:700;font-size:1.25rem}
+        .logo-icon{
+            width:56px;height:56px;border-radius:12px;
+            display:flex;align-items:center;justify-content:center;
+            background:linear-gradient(135deg,#1f2630,#2c3338);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), var(--shadow-2);
+            border:2px solid rgba(255,255,255,0.02);
+            font-size:22px;
+            color:var(--accent-2);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
+        .nav-links{display:flex;gap:1.25rem;list-style:none;align-items:center}
+        .nav-links a{
+            color:var(--metal);padding:0.45rem 0.5rem;border-radius:8px;font-weight:600;font-size:0.95rem;
+            transition:all .18s ease;
+        }
+        .nav-links a:hover{background:rgba(255,255,255,0.02);color:var(--accent-2);transform:translateY(-2px)}
+
+        .menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer}
+        .menu-toggle span{display:block;width:26px;height:3px;background:var(--metal);border-radius:3px;transition:all .2s ease}
+
+        /* HERO */
+        .hero{
+            min-height:85vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 5% 6rem;
+            position:relative;overflow:hidden;
         }
 
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), #ff8c61);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: float 3s ease-in-out infinite;
+        .hero::before{
+            content:"";
+            position:absolute;right:-18%;top:-10%;width:800px;height:800px;
+            background:radial-gradient(circle at 30% 30%, rgba(243,156,18,0.06), transparent 30%),
+                       radial-gradient(circle at 70% 70%, rgba(189,195,199,0.03), transparent 25%);
+            transform:rotate(12deg);pointer-events:none;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .hero-content{z-index:2;max-width:980px;color:var(--light-bg);padding:2rem;border-radius:18px}
+        .hero h1{
+            font-size:2.6rem;line-height:1.05;margin-bottom:0.75rem;
+            background:linear-gradient(90deg,var(--light-bg),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;color:transparent;
+            font-weight:800;
+            text-shadow: 0 2px 18px rgba(2,6,10,0.5);
+        }
+        .hero p{color:rgba(246,248,249,0.9);font-size:1.05rem;margin-bottom:1.25rem;opacity:0.95}
+
+        .cta-button{
+            display:inline-block;padding:0.95rem 2rem;border-radius:40px;background:linear-gradient(90deg,var(--accent),#ffb756);
+            color:#071017;font-weight:800;box-shadow: 0 12px 30px rgba(243,156,18,0.18);transition:transform .18s ease, box-shadow .18s ease;
+        }
+        .cta-button:hover{transform:translateY(-3px);box-shadow:0 18px 48px rgba(243,156,18,0.24)}
+
+        /* Sections */
+        section{padding:4.5rem 5%}
+        .services{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));}
+        .section-title{text-align:center;font-size:2rem;color:var(--metal);margin-bottom:2.25rem;font-weight:700}
+
+        .services-grid{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+        .service-card{
+            background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+            border-radius:16px;padding:1.6rem;border:1px solid rgba(255,255,255,0.03);
+            box-shadow:var(--shadow-2);transition:transform .22s ease, box-shadow .22s ease;
+            display:flex;flex-direction:column;gap:0.8rem;min-height:170px;
+        }
+        .service-card:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(2,6,10,0.65)}
+        .service-icon{
+            width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg, rgba(243,156,18,0.14), rgba(189,195,199,0.04));
+            display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--accent);
+            border:1px solid rgba(255,255,255,0.02);
+        }
+        .service-card h3{color:var(--light-bg);font-size:1.05rem;margin-top:0.25rem}
+        .service-card p{color:var(--muted);flex:1;font-size:0.95rem;line-height:1.6}
+
+        /* About */
+        .about{background:var(--light-bg);color:#0b1216;padding-top:3.5rem;padding-bottom:3.5rem}
+        .about-content{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2.2rem;align-items:center}
+        .about-text h2{font-size:1.9rem;color:#0b1216;margin-bottom:0.75rem}
+        .about-text p{color:#263238;margin-bottom:0.9rem;line-height:1.65}
+
+        .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.25rem}
+        .stat-box{background:linear-gradient(180deg, rgba(11,18,22,0.02), rgba(11,18,22,0.01));padding:1rem;border-radius:12px;text-align:center;border:1px solid rgba(2,6,10,0.03)}
+        .stat-number{font-size:1.6rem;font-weight:800;color:var(--accent)}
+        .stat-label{color:#586166;margin-top:0.35rem;font-weight:600}
+
+        .about-image{height:420px;border-radius:14px;overflow:hidden;background:
+            linear-gradient(180deg, #12202a, #1b2a33);
+            display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.06);position:relative;box-shadow:var(--shadow-1)}
+        .about-image::after{
+            content:"";position:absolute;inset:0;background:linear-gradient(135deg, rgba(255,255,255,0.02), transparent);
         }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+        /* Contact */
+        .contact{background:linear-gradient(180deg,#071017,#0b1216);color:var(--metal);padding-top:3.5rem;padding-bottom:3.5rem}
+        .contact-content{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+        .contact-info h2{font-size:1.8rem;color:var(--accent-2);margin-bottom:0.6rem}
+        .contact-info p{color:rgba(191,199,203,0.9);margin-bottom:1.25rem}
+        .contact-details{display:flex;flex-direction:column;gap:1rem}
+        .contact-item{display:flex;gap:0.9rem;align-items:flex-start}
+        .contact-icon{width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.2rem;border:1px solid rgba(255,255,255,0.02)}
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
+        .contact-form{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1.4rem;border-radius:14px;border:1px solid rgba(255,255,255,0.03)}
+        .form-group{margin-bottom:0.9rem}
+        .form-group input,.form-group textarea{
+            width:100%;padding:0.9rem;border-radius:10px;border:1px solid rgba(255,255,255,0.03);
+            background:transparent;color:var(--metal);font-family:inherit;font-size:0.95rem;outline:none;
+            transition:box-shadow .14s ease, border-color .14s ease;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: white;
-            transition: all 0.3s ease;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: var(--primary);
-            border-radius: 50%;
-            top: -250px;
-            right: -250px;
-            opacity: 0.1;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            z-index: 1;
-            padding: 2rem;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, white, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 6rem 5%;
-            background: var(--light);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--secondary);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary), #ff8c61);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-
-        .service-card p {
-            color: var(--gray);
-            line-height: 1.8;
-        }
-
-        /* About Section */
-        .about {
-            padding: 6rem 5%;
-            background: white;
-        }
-
-        .about-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-        }
-
-        .about-text p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .stat-box {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--light);
-            border-radius: 15px;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            color: var(--gray);
-            margin-top: 0.5rem;
-        }
-
-        .about-image {
-            position: relative;
-            height: 500px;
-            border-radius: 20px;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 6rem 5%;
-            background: var(--secondary);
-            color: white;
-        }
-
-        .contact-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info p {
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-form {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2.5rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-family: inherit;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
-        }
+        .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(191,199,203,0.45)}
+        .form-group input:focus,.form-group textarea:focus{box-shadow:var(--focus);border-color:rgba(243,156,18,0.28)}
+        .submit-button{width:100%;padding:0.95rem;border-radius:10px;background:linear-gradient(90deg,var(--accent),#ffb756);border:none;color:#071017;font-weight:800;cursor:pointer;transition:transform .18s ease}
+        .submit-button:hover{transform:translateY(-3px)}
 
         /* Footer */
-        footer {
-            background: var(--accent);
-            color: white;
-            text-align: center;
-            padding: 2rem 5%;
+        footer{padding:1.6rem 5%;background:#061014;color:rgba(191,199,203,0.85);text-align:center;font-size:0.95rem}
+
+        /* Mobile */
+        @media (max-width: 900px){
+            .about-content,.contact-content{grid-template-columns:1fr}
+            .about-image{height:300px}
+            header{padding:0.9rem 5%}
+            .hero h1{font-size:1.8rem}
+            .hero p{font-size:0.98rem}
+            .menu-toggle{display:flex}
+            .nav-links{
+                position:fixed;top:72px;left:-110%;right:auto;flex-direction:column;gap:1rem;background:linear-gradient(180deg,#071017,#0b1216);width:88%;padding:1.5rem;border-radius:10px;transition:left .22s ease;box-shadow:0 20px 50px rgba(2,6,10,0.6);
+            }
+            .nav-links a{padding:0.85rem 0.6rem}
+            .nav-links.active{left:6%}
+            .hero{padding-top:100px;padding-bottom:4rem}
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                flex-direction: column;
-                background: var(--secondary);
-                width: 100%;
-                padding: 2rem;
-                transition: left 0.3s ease;
-            }
-
-            .nav-links.active {
-                left: 0;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image {
-                height: 300px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
+        /* small tweaks for smaller phones */
+        @media (max-width:420px){
+            .logo-icon{width:48px;height:48px;font-size:18px}
+            .hero h1{font-size:1.5rem}
+            .cta-button{padding:0.75rem 1.25rem;font-size:0.95rem}
         }
     </style>
 </head>
@@ -473,13 +198,15 @@
                 <div class="logo-icon">⚙️</div>
                 <span>TechMotor Pro</span>
             </a>
-            <ul class="nav-links">
+
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#servizi">Servizi</a></li>
                 <li><a href="#chi-siamo">Chi Siamo</a></li>
                 <li><a href="#contatti">Contatti</a></li>
             </ul>
-            <div class="menu-toggle" onclick="toggleMenu()">
+
+            <div class="menu-toggle" id="menuToggle" aria-label="Apri menu" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -487,178 +214,195 @@
         </nav>
     </header>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Officina Meccanica di Precisione</h1>
-            <p>Riparazioni professionali, assistenza specializzata e manutenzione per il tuo veicolo</p>
-            <a href="#contatti" class="cta-button">Prenota Ora</a>
-        </div>
-    </section>
+    <main>
+        <section class="hero" id="home" aria-label="Hero">
+            <div class="hero-content">
+                <h1>Officina Meccanica di Precisione</h1>
+                <p>Riparazioni professionali, assistenza specializzata e manutenzione per il tuo veicolo — qualità, rapidità e trasparenza.</p>
+                <a href="#contatti" class="cta-button">Prenota Ora</a>
+            </div>
+        </section>
 
-    <section class="services" id="servizi">
-        <h2 class="section-title">I Nostri Servizi</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🔧</div>
-                <h3>Manutenzione Ordinaria</h3>
-                <p>Tagliandi periodici, cambio olio, filtri e controlli completi per mantenere il tuo veicolo sempre efficiente.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>Diagnosi Elettronica</h3>
-                <p>Strumentazione avanzata per diagnostica computerizzata e risoluzione problemi elettronici.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🛠️</div>
-                <h3>Riparazioni Meccaniche</h3>
-                <p>Interventi su motore, trasmissione, freni e tutti i componenti meccanici del veicolo.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">❄️</div>
-                <h3>Climatizzazione</h3>
-                <p>Ricarica e manutenzione impianti di climatizzazione con gas ecologici certificati.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🔍</div>
-                <h3>Revisione Auto</h3>
-                <p>Centro autorizzato per revisioni periodiche e controlli ministeriali obbligatori.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🚗</div>
-                <h3>Gommista</h3>
-                <p>Vendita pneumatici, equilibratura, convergenza e deposito stagionale gomme.</p>
-            </div>
-        </div>
-    </section>
+        <section class="services" id="servizi" aria-label="I Nostri Servizi">
+            <h2 class="section-title">I Nostri Servizi</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>Manutenzione Ordinaria</h3>
+                    <p>Tagliandi, cambio olio e filtri, controlli periodici per garantire efficienza e sicurezza su strada.</p>
+                </div>
 
-    <section class="about" id="chi-siamo">
-        <div class="about-content">
-            <div class="about-text">
-                <h2>Chi Siamo</h2>
-                <p>TechMotor Pro è un'officina meccanica all'avanguardia che opera dal 2010 nel settore dell'automotive. La nostra missione è offrire servizi di qualità superiore con personale altamente qualificato e attrezzature di ultima generazione.</p>
-                <p>Ci distinguiamo per la professionalità, la trasparenza nei preventivi e la cura del cliente. Ogni intervento viene eseguito con precisione e certificato, garantendo la massima sicurezza e affidabilità del vostro veicolo.</p>
-                <div class="stats">
-                    <div class="stat-box">
-                        <div class="stat-number">5000+</div>
-                        <div class="stat-label">Clienti Soddisfatti</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Anni di Esperienza</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Recensioni Positive</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Assistenza Urgenze</div>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3>Diagnosi Elettronica</h3>
+                    <p>Diagnostica con strumenti professionali per individuare e risolvere rapidamente guasti elettronici e centraline.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🛠️</div>
+                    <h3>Riparazioni Meccaniche</h3>
+                    <p>Interventi su motore, trasmissione, freni e sospensioni eseguiti da tecnici specializzati.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">❄️</div>
+                    <h3>Climatizzazione</h3>
+                    <p>Controllo, ricarica e sanificazione impianti con gas ecologici e attrezzature certificate.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Revisione Auto</h3>
+                    <p>Servizio revisioni autorizzato: preparazione e verifica completa per superare i controlli ministeriali.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Gommista</h3>
+                    <p>Vendita pneumatici, equilibratura, convergenza e deposito stagionale — sicurezza e comfort alla guida.</p>
                 </div>
             </div>
-            <div class="about-image"></div>
-        </div>
-    </section>
+        </section>
 
-    <section class="contact" id="contatti">
-        <div class="contact-content">
-            <div class="contact-info">
-                <h2>Contattaci</h2>
-                <p>Siamo a tua disposizione per qualsiasi informazione o per prenotare un appuntamento. Il nostro team è pronto ad assisterti.</p>
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <strong>Indirizzo</strong><br>
-                            Via delle Officine 42, Novara
+        <section class="about" id="chi-siamo" aria-label="Chi Siamo">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Chi Siamo</h2>
+                    <p>TechMotor Pro è un'officina moderna e affidabile, operativa dal 2010. Mettiamo esperienza e tecnologie aggiornate al servizio del cliente per interventi rapidi e duraturi.</p>
+                    <p>Ci distinguiamo per la trasparenza nei preventivi, la qualità delle riparazioni e l'attenzione al dettaglio: ogni lavoro viene documentato e garantito.</p>
+
+                    <div class="stats" aria-hidden="false">
+                        <div class="stat-box">
+                            <div class="stat-number">5000+</div>
+                            <div class="stat-label">Clienti Soddisfatti</div>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div>
-                            <strong>Telefono</strong><br>
-                            +39 0321 123456
+                        <div class="stat-box">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Anni di Esperienza</div>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">✉️</div>
-                        <div>
-                            <strong>Email</strong><br>
-                            info@techmotorpro.it
+                        <div class="stat-box">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Recensioni Positive</div>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🕐</div>
-                        <div>
-                            <strong>Orari</strong><br>
-                            Lun-Ven: 8:00-18:00 | Sab: 8:00-13:00
+                        <div class="stat-box">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Assistenza Urgenze</div>
                         </div>
                     </div>
                 </div>
+
+                <div class="about-image" aria-hidden="true">
+                    <!-- decorative - can be replaced with an image later -->
+                </div>
             </div>
-            <div class="contact-form">
-                <form onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <input type="text" placeholder="Nome e Cognome" required>
+        </section>
+
+        <section class="contact" id="contatti" aria-label="Contatti">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Contattaci</h2>
+                    <p>Siamo a tua disposizione per informazioni o per prenotare un intervento. Compila il form o chiamaci: rispondiamo sempre con rapidità.</p>
+
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div><strong>Indirizzo</strong><br/>Via delle Officine 42, Novara</div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div><strong>Telefono</strong><br/>+39 0321 123456</div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div><strong>Email</strong><br/>info@techmotorpro.it</div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">🕐</div>
+                            <div><strong>Orari</strong><br/>Lun-Ven: 8:00-18:00 | Sab: 8:00-13:00</div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" placeholder="Telefono" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Messaggio" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Invia Richiesta</button>
-                </form>
+                </div>
+
+                <div class="contact-form">
+                    <form onsubmit="handleSubmit(event)" aria-label="Modulo contatto">
+                        <div class="form-group">
+                            <input type="text" placeholder="Nome e Cognome" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Telefono" required />
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Messaggio" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Invia Richiesta</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2024 TechMotor Pro - Officina Meccanica. Tutti i diritti riservati.</p>
+        <p>&copy; 2025 TechMotor Pro - Officina Meccanica. Tutti i diritti riservati.</p>
     </footer>
 
     <script>
+        // Mobile nav toggle
         function toggleMenu() {
-            const navLinks = document.querySelector('.nav-links');
+            const navLinks = document.getElementById('navLinks');
             navLinks.classList.toggle('active');
+            const toggle = document.getElementById('menuToggle');
+            toggle.classList.toggle('open');
         }
 
-        function handleSubmit(e) {
+        // Handle contact form (simple stub)
+        function handleSubmit(e){
             e.preventDefault();
             alert('Grazie per averci contattato! Ti risponderemo al più presto.');
             e.target.reset();
+            // Here you can add an AJAX call to submit the form to a server or service.
         }
 
-        // Smooth scrolling
+        // Smooth scrolling with offset for fixed header
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+            anchor.addEventListener('click', function (ev) {
+                ev.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    document.querySelector('.nav-links').classList.remove('active');
-                }
+                if (!target) return;
+                const headerOffset = document.querySelector('header').offsetHeight || 80;
+                const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerOffset - 12;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
+                // close mobile nav if open
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks.classList.contains('active')) navLinks.classList.remove('active');
             });
         });
 
-        // Header scroll effect
-        let lastScroll = 0;
+        // Header shrink on scroll
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 100) {
-                header.style.padding = '0.5rem 5%';
-                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            if (window.pageYOffset > 80) {
+                header.style.padding = '0.6rem 5%';
+                header.style.boxShadow = '0 8px 30px rgba(2,6,10,0.6)';
             } else {
-                header.style.padding = '1.5rem 5%';
+                header.style.padding = '1.25rem 5%';
                 header.style.boxShadow = 'none';
             }
-            
-            lastScroll = currentScroll;
+        });
+
+        // Accessibility: close nav with Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks.classList.contains('active')) navLinks.classList.remove('active');
+            }
         });
     </script>
 </body>

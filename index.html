@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
+    <!-- Favicon / touch icon -->
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="logo.png" />
+
     <!-- Inline styles for the logo placeholder and behavior -->
     <style>
         /* Centered logo placeholder (visible on top of page when not scrolled) */
@@ -25,6 +29,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+            background: transparent;
         }
 
         /* Small inline logo placed to the right of "Web Agency" (hidden initially) */
@@ -38,6 +45,9 @@
             visibility: hidden;
             transform: translateY(-4px);
             transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+            overflow: hidden;
+            border-radius: 8px;
+            background: transparent;
         }
 
         /* When scrolled, hide center logo and show inline one */
@@ -60,11 +70,12 @@
             gap: 0.5rem;
         }
 
-        /* Make svg preserve aspect and fill nicely */
-        .logo-svg {
+        /* Make img preserve aspect and fill nicely */
+        .logo-img {
             width: 100%;
             height: 100%;
             display: block;
+            object-fit: contain;
         }
 
         /* Optional smaller size on very small screens */
@@ -77,23 +88,9 @@
 <body class="is-preload">
 
     <!-- Centered logo placeholder (visible at top center before scrolling) -->
-    <div id="top-logo-center" aria-hidden="true" title="Logo placeholder">
-        <!-- Simple SVG placeholder (replace with real logo file if available) -->
-        <svg class="logo-svg" viewBox="0 0 100 100" xmlns="pic12.png role="img" aria-labelledby="logoTitle">
-            <title id="logoTitle">Elevate Digital logo placeholder</title>
-            <defs>
-                <linearGradient id="g" x1="0" x2="1">
-                    <stop offset="0" stop-color="#2d9cdb"/>
-                    <stop offset="1" stop-color="#20639b"/>
-                </linearGradient>
-            </defs>
-            <rect rx="16" width="100" height="100" fill="url(#g)"/>
-            <g fill="#fff" transform="translate(16,20)">
-                <rect x="0" y="0" width="68" height="10" rx="3"></rect>
-                <rect x="0" y="18" width="48" height="10" rx="3"></rect>
-                <rect x="0" y="36" width="28" height="10" rx="3"></rect>
-            </g>
-        </svg>
+    <div id="top-logo-center" aria-hidden="true" title="Logo">
+        <!-- Use provided PNG logo (replace path if your logo is in a subfolder) -->
+        <img src="logo.png" alt="Elevate Digital logo" class="logo-img" />
     </div>
 
     <!-- Wrapper -->
@@ -104,20 +101,8 @@
             <a href="index.html" class="logo">
                 <strong>Elevate Digital</strong> <span>Web Agency</span>
                 <!-- Inline logo placeholder that appears to the right of "Web Agency" after scrolling -->
-                <span id="top-logo-inline" class="logo-inline" aria-hidden="true" title="Logo placeholder (small)">
-                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="pic12.png" role="img" aria-hidden="true">
-                        <rect rx="12" width="100" height="100" fill="url(#g-small)"></rect>
-                        <g fill="#fff" transform="translate(14,18)">
-                            <rect x="0" y="0" width="68" height="8" rx="2"></rect>
-                            <rect x="0" y="16" width="46" height="8" rx="2"></rect>
-                        </g>
-                        <defs>
-                            <linearGradient id="g-small" x1="0" x2="1">
-                                <stop offset="0" stop-color="#2d9cdb"/>
-                                <stop offset="1" stop-color="#20639b"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                <span id="top-logo-inline" class="logo-inline" aria-hidden="true" title="Logo (small)">
+                    <img src="logo.png" alt="" class="logo-img" />
                 </span>
             </a>
             <nav>
@@ -337,4 +322,3 @@
 
 </body>
 </html>
-

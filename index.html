@@ -6,8 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+    <!-- Inline styles for the logo placeholder and behavior -->
+    <style>
+        /* Centered logo placeholder (visible on top of page when not scrolled) */
+        #top-logo-center {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+            transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: none; /* decorative */
+            width: 72px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Small inline logo placed to the right of "Web Agency" (hidden initially) */
+        .logo-inline {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            vertical-align: middle;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+        }
+
+        /* When scrolled, hide center logo and show inline one */
+        body.logo-scrolled #top-logo-center {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-6px);
+            visibility: hidden;
+        }
+
+        body.logo-scrolled .logo-inline {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Ensure header .logo content keeps layout when inline logo appears */
+        a.logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Make svg preserve aspect and fill nicely */
+        .logo-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Optional smaller size on very small screens */
+        @media (max-width: 480px) {
+            #top-logo-center { width: 56px; height: 56px; top: 8px; }
+            .logo-inline { width: 32px; height: 32px; margin-left: 8px; }
+        }
+    </style>
 </head>
 <body class="is-preload">
+
+    <!-- Centered logo placeholder (visible at top center before scrolling) -->
+    <div id="top-logo-center" aria-hidden="true" title="Logo placeholder">
+        <!-- Simple SVG placeholder (replace with real logo file if available) -->
+        <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logoTitle">
+            <title id="logoTitle">Elevate Digital logo placeholder</title>
+            <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                    <stop offset="0" stop-color="#2d9cdb"/>
+                    <stop offset="1" stop-color="#20639b"/>
+                </linearGradient>
+            </defs>
+            <rect rx="16" width="100" height="100" fill="url(#g)"/>
+            <g fill="#fff" transform="translate(16,20)">
+                <rect x="0" y="0" width="68" height="10" rx="3"></rect>
+                <rect x="0" y="18" width="48" height="10" rx="3"></rect>
+                <rect x="0" y="36" width="28" height="10" rx="3"></rect>
+            </g>
+        </svg>
+    </div>
 
     <!-- Wrapper -->
     <div id="wrapper">
@@ -16,6 +103,22 @@
         <header id="header" class="alt">
             <a href="index.html" class="logo">
                 <strong>Elevate Digital</strong> <span>Web Agency</span>
+                <!-- Inline logo placeholder that appears to the right of "Web Agency" after scrolling -->
+                <span id="top-logo-inline" class="logo-inline" aria-hidden="true" title="Logo placeholder (small)">
+                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                        <rect rx="12" width="100" height="100" fill="url(#g-small)"></rect>
+                        <g fill="#fff" transform="translate(14,18)">
+                            <rect x="0" y="0" width="68" height="8" rx="2"></rect>
+                            <rect x="0" y="16" width="46" height="8" rx="2"></rect>
+                        </g>
+                        <defs>
+                            <linearGradient id="g-small" x1="0" x2="1">
+                                <stop offset="0" stop-color="#2d9cdb"/>
+                                <stop offset="1" stop-color="#20639b"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </span>
             </a>
             <nav>
                 <a href="portfolio.html" class="button primary">Guarda i lavori</a>
@@ -195,6 +298,35 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        // Toggle logo positions on scroll:
+        (function () {
+            var body = document.body;
+            var THRESHOLD = 36; // pixels scrolled before switching
+            function updateLogoState() {
+                var y = window.scrollY || window.pageYOffset;
+                if (y > THRESHOLD) {
+                    if (!body.classList.contains('logo-scrolled')) body.classList.add('logo-scrolled');
+                } else {
+                    if (body.classList.contains('logo-scrolled')) body.classList.remove('logo-scrolled');
+                }
+            }
+            // Initialize state (in case page loaded with scroll)
+            updateLogoState();
+            // Throttle scroll with requestAnimationFrame
+            var ticking = false;
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        updateLogoState();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
+    </script>
+
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.scrolly.min.js"></script>
     <script src="assets/js/jquery.scrollex.min.js"></script>
@@ -205,12 +337,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
